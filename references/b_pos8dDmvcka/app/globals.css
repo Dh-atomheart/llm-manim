@@ -1,0 +1,150 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Core palette — dark tool aesthetic */
+  --background: oklch(0.09 0 0);
+  --foreground: oklch(0.90 0 0);
+  --card: oklch(0.11 0 0);
+  --card-foreground: oklch(0.90 0 0);
+  --popover: oklch(0.13 0 0);
+  --popover-foreground: oklch(0.90 0 0);
+  --primary: oklch(0.90 0 0);
+  --primary-foreground: oklch(0.09 0 0);
+  --secondary: oklch(0.16 0 0);
+  --secondary-foreground: oklch(0.90 0 0);
+  --muted: oklch(0.15 0 0);
+  --muted-foreground: oklch(0.50 0 0);
+  --accent: oklch(0.17 0 0);
+  --accent-foreground: oklch(0.90 0 0);
+  --destructive: oklch(0.57 0.21 27.3);
+  --destructive-foreground: oklch(0.90 0 0);
+  --border: oklch(0.20 0 0);
+  --input: oklch(0.14 0 0);
+  --ring: oklch(0.40 0 0);
+  --radius: 0.25rem;
+
+  /* Sidebar */
+  --sidebar: oklch(0.11 0 0);
+  --sidebar-foreground: oklch(0.90 0 0);
+  --sidebar-primary: oklch(0.90 0 0);
+  --sidebar-primary-foreground: oklch(0.09 0 0);
+  --sidebar-accent: oklch(0.16 0 0);
+  --sidebar-accent-foreground: oklch(0.90 0 0);
+  --sidebar-border: oklch(0.18 0 0);
+  --sidebar-ring: oklch(0.40 0 0);
+
+  /* Topbar */
+  --topbar: oklch(0.10 0 0);
+  --topbar-border: oklch(0.18 0 0);
+
+  /* Status — semantic only, not branding */
+  --status-queued: oklch(0.50 0 0);
+  --status-queued-bg: oklch(0.14 0 0);
+  --status-queued-border: oklch(0.22 0 0);
+
+  --status-running: oklch(0.63 0.14 240);
+  --status-running-bg: oklch(0.13 0.04 240);
+  --status-running-border: oklch(0.26 0.08 240);
+
+  --status-success: oklch(0.63 0.14 145);
+  --status-success-bg: oklch(0.13 0.04 145);
+  --status-success-border: oklch(0.26 0.08 145);
+
+  --status-error: oklch(0.60 0.20 27.3);
+  --status-error-bg: oklch(0.13 0.05 27.3);
+  --status-error-border: oklch(0.26 0.10 27.3);
+
+  --status-warning: oklch(0.68 0.16 75);
+  --status-warning-bg: oklch(0.13 0.04 75);
+  --status-warning-border: oklch(0.26 0.08 75);
+
+  --status-cancelled: oklch(0.40 0 0);
+  --status-cancelled-bg: oklch(0.13 0 0);
+  --status-cancelled-border: oklch(0.20 0 0);
+}
+
+@theme inline {
+  --font-sans: 'Geist', 'Geist Fallback';
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-topbar: var(--topbar);
+  --color-topbar-border: var(--topbar-border);
+
+  /* Status tokens */
+  --color-status-queued: var(--status-queued);
+  --color-status-queued-bg: var(--status-queued-bg);
+  --color-status-queued-border: var(--status-queued-border);
+  --color-status-running: var(--status-running);
+  --color-status-running-bg: var(--status-running-bg);
+  --color-status-running-border: var(--status-running-border);
+  --color-status-success: var(--status-success);
+  --color-status-success-bg: var(--status-success-bg);
+  --color-status-success-border: var(--status-success-border);
+  --color-status-error: var(--status-error);
+  --color-status-error-bg: var(--status-error-bg);
+  --color-status-error-border: var(--status-error-border);
+  --color-status-warning: var(--status-warning);
+  --color-status-warning-bg: var(--status-warning-bg);
+  --color-status-warning-border: var(--status-warning-border);
+  --color-status-cancelled: var(--status-cancelled);
+  --color-status-cancelled-bg: var(--status-cancelled-bg);
+  --color-status-cancelled-border: var(--status-cancelled-border);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Scrollbar styling for dark tool aesthetic */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.25 0 0);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.35 0 0);
+  }
+}

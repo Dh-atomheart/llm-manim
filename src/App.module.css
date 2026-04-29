@@ -1,0 +1,756 @@
+:global(:root) {
+  --background: #f2f2ee;
+  --surface: #fbfbf8;
+  --surface-muted: #f6f6f1;
+  --border: #d8d8d1;
+  --border-strong: #c6c6be;
+  --text-primary: #171717;
+  --text-secondary: #62625d;
+  --text-muted: #8d8d86;
+  --topbar-bg: #1a1a18;
+  --topbar-border: #2e2e29;
+  --topbar-text: #e8e8e2;
+  --topbar-muted: #9a9a93;
+  --sidebar-bg: #f4f4f0;
+  --sidebar-border: #dededb;
+  --sidebar-text: #44443f;
+  --success: #215d36;
+  --pending: #2a557e;
+  --warning: #9b6c10;
+  --error: #8c201c;
+  --neutral: #6c6c66;
+}
+
+:global(*) {
+  box-sizing: border-box;
+}
+
+:global(body) {
+  margin: 0;
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  font-size: 13px;
+}
+
+:global(button),
+:global(input),
+:global(textarea),
+:global(select) {
+  font: inherit;
+}
+
+:global(#root) {
+  min-height: 100vh;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 10px;
+  background: var(--topbar-bg);
+  border-bottom: 1px solid var(--topbar-border);
+  flex-shrink: 0;
+}
+
+.topbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: var(--topbar-text);
+  color: var(--topbar-bg);
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.appName {
+  color: var(--topbar-text);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.topbarSep {
+  color: var(--topbar-muted);
+  font-size: 13px;
+}
+
+.topbarPage {
+  color: var(--topbar-muted);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.topbarRight {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.providerBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 8px;
+  border: 1px solid var(--topbar-border);
+  background: transparent;
+  color: var(--topbar-muted);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.providerBtn:hover,
+.providerBtnActive {
+  color: var(--topbar-text);
+  border-color: #45453f;
+}
+
+.providerBtnIcon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.providerModel {
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 11px;
+}
+
+.topbarIconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--topbar-muted);
+  cursor: pointer;
+}
+
+.topbarIconBtn:hover,
+.topbarIconBtnActive {
+  color: var(--topbar-text);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 208px;
+  flex-shrink: 0;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  overflow: hidden;
+}
+
+.sidebarTopSection,
+.sidebarFooter {
+  padding: 8px 10px;
+  flex-shrink: 0;
+}
+
+.sidebarTopSection {
+  border-bottom: 1px solid var(--sidebar-border);
+}
+
+.sidebarFooter {
+  border-top: 1px solid var(--sidebar-border);
+  padding: 4px 6px;
+}
+
+.newProjectBtn,
+.sidebarNavItem,
+.sidebarProjectMain,
+.sidebarItemTrash,
+.sidebarInputButton,
+.textButton,
+.secondaryButton,
+.dangerButton,
+.tableRowButton,
+.deleteTextButton {
+  cursor: pointer;
+}
+
+.newProjectBtn,
+.sidebarNavItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 28px;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--sidebar-text);
+  font-size: 12px;
+  text-align: left;
+}
+
+.newProjectBtn {
+  border-color: var(--border-strong);
+}
+
+.newProjectBtn:hover,
+.sidebarNavItem:hover,
+.sidebarProjectMain:hover {
+  background: var(--surface);
+}
+
+.sidebarNavSection {
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--sidebar-border);
+  flex-shrink: 0;
+}
+
+.sidebarNavItemActive {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+.sidebarProjects {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 6px;
+}
+
+.sidebarGroupLabel {
+  display: block;
+  padding: 0 8px 4px;
+  color: var(--text-muted);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sidebarEmpty {
+  margin: 0;
+  padding: 4px 8px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.sidebarProjectItem {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  margin-bottom: 2px;
+}
+
+.sidebarProjectItemActive .sidebarProjectMain {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+.sidebarProjectMain {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--sidebar-text);
+  text-align: left;
+}
+
+.sidebarProjectName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebarItemTrash {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  opacity: 0;
+}
+
+.sidebarProjectItem:hover .sidebarItemTrash,
+.sidebarProjectItemActive .sidebarItemTrash {
+  opacity: 1;
+}
+
+.sidebarItemTrash:hover {
+  color: var(--error);
+  border-color: #e7cecc;
+  background: #fbefee;
+}
+
+.sidebarIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.newProjectComposer {
+  display: grid;
+  gap: 8px;
+}
+
+.sidebarInput {
+  width: 100%;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+.sidebarInputActions {
+  display: flex;
+  gap: 6px;
+}
+
+.sidebarInputButton {
+  flex: 1;
+  height: 28px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 11px;
+}
+
+.sidebarInputButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--background);
+}
+
+.mainTitleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 20px;
+  height: 48px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+
+.mainTitleBlock {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mainTitle {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mainSubtitle {
+  color: var(--text-secondary);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mainTitleActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mainInner {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.panelGrid {
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) minmax(0, 1fr);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.panel {
+  padding: 20px;
+  min-width: 0;
+}
+
+.panel + .panel {
+  border-left: 1px solid var(--border);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.panelHeader h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.panelMeta {
+  margin: 6px 0 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.definitionList {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 16px;
+}
+
+.definitionList div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.definitionList dt {
+  color: var(--text-secondary);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.definitionList dd {
+  margin: 0;
+  text-align: right;
+  font-size: 12px;
+}
+
+.pathValue {
+  max-width: 260px;
+  font-family: "Cascadia Mono", Consolas, monospace;
+  line-height: 1.6;
+  text-align: left;
+  word-break: break-word;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border: 1px solid currentColor;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.success {
+  color: var(--success);
+}
+
+.pending {
+  color: var(--pending);
+}
+
+.warning {
+  color: var(--warning);
+}
+
+.error {
+  color: var(--error);
+}
+
+.neutral {
+  color: var(--neutral);
+}
+
+.hint,
+.inlineNote,
+.placeholderView p,
+.modalMessage,
+.loadingHint {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.hint,
+.inlineNote {
+  margin: 0;
+}
+
+.actionButton,
+.secondaryButton,
+.dangerButton {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid #1a1a18;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 12px;
+}
+
+.actionButton {
+  background: #1a1a18;
+  color: #f8f8f4;
+}
+
+.dangerButton {
+  border-color: #8c201c;
+  background: #8c201c;
+  color: #f8f8f4;
+}
+
+.textButton,
+.deleteTextButton,
+.tableRowButton {
+  border: none;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.textButton {
+  color: var(--text-secondary);
+}
+
+.textButton:disabled,
+.actionButton:disabled,
+.secondaryButton:disabled,
+.dangerButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.table th,
+.table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table th {
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tableRowActive {
+  background: var(--surface-muted);
+}
+
+.tableRowButton {
+  text-align: left;
+  width: 100%;
+}
+
+.deleteTextButton {
+  color: var(--error);
+}
+
+.workbenchPanel {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 20px;
+}
+
+.workbenchPanel .hint {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.emptyState {
+  display: grid;
+  justify-items: flex-start;
+  gap: 12px;
+  padding: 20px 0 4px;
+}
+
+.errorBanner,
+.infoBanner {
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.errorBanner {
+  border-color: #d9b8b5;
+  background: #fbefee;
+  color: var(--error);
+}
+
+.infoBanner {
+  border-color: #cfd6cb;
+  background: #f0f5ef;
+  color: var(--success);
+}
+
+.placeholderView {
+  display: grid;
+  place-items: center;
+  min-height: 320px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 24px;
+  text-align: center;
+}
+
+.placeholderView h2,
+.loadingTitle,
+.modalTitle {
+  margin: 0 0 10px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.loadingScreen {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 10px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-y: auto;
+  padding: 24px;
+  background: var(--background);
+}
+
+.loadingHint {
+  margin: 0;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(17, 17, 17, 0.38);
+}
+
+.modalBox {
+  width: min(100%, 400px);
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  padding: 20px;
+}
+
+.modalMessage {
+  margin: 0 0 18px;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+@media (max-width: 980px) {
+  .panelGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel + .panel {
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 760px) {
+  .body {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-height: 260px;
+    border-right: none;
+    border-bottom: 1px solid var(--sidebar-border);
+  }
+
+  .mainTitleBar {
+    height: auto;
+    padding: 12px 16px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .mainInner {
+    padding: 16px;
+  }
+
+  .definitionList div {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .definitionList dd,
+  .pathValue {
+    text-align: left;
+  }
+
+  .table {
+    display: block;
+    overflow-x: auto;
+  }
+}
