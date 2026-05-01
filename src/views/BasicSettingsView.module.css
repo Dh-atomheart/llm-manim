@@ -1,0 +1,190 @@
+.page {
+  display: grid;
+  gap: 16px;
+}
+
+.section {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.titleBlock {
+  display: grid;
+  gap: 4px;
+}
+
+.title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.copy {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.pathField,
+.selectField {
+  display: grid;
+  gap: 6px;
+}
+
+.toggleField {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggleField input {
+  width: 16px;
+  height: 16px;
+}
+
+.toggleText {
+  font-weight: 600;
+}
+
+.label {
+  color: var(--text-muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pathInput,
+.select {
+  width: 100%;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--border-strong);
+  background: var(--input);
+  color: var(--text-primary);
+}
+
+.runtimeList {
+  display: grid;
+  gap: 8px;
+}
+
+.runtimeItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+
+.runtimeLabelBlock {
+  display: grid;
+  gap: 2px;
+}
+
+.runtimeLabel {
+  font-weight: 600;
+}
+
+.runtimeVersion {
+  color: var(--text-secondary);
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 12px;
+}
+
+.runtimeMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-secondary);
+}
+
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid currentColor;
+  font-size: 11px;
+  font-family: "Cascadia Mono", Consolas, monospace;
+}
+
+.statusIdle {
+  color: var(--neutral);
+}
+
+.statusChecking {
+  color: var(--pending);
+}
+
+.statusOk {
+  color: var(--success);
+}
+
+.statusMissing {
+  color: var(--error);
+}
+
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.secondaryButton:hover:enabled {
+  background: var(--surface-muted);
+}
+
+.secondaryButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.callout {
+  padding: 12px;
+  line-height: 1.5;
+}
+
+.calloutSuccess {
+  border: 1px solid var(--success-border);
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.calloutWarn {
+  border: 1px solid var(--warning-border);
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+.calloutError {
+  border: 1px solid var(--error-border);
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+@media (max-width: 720px) {
+  .header,
+  .runtimeItem {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

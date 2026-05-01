@@ -1,0 +1,173 @@
+:root {
+  color-scheme: light dark;
+
+  --background: #f2f2ee;
+  --foreground: #171717;
+  --card: #fbfbf8;
+  --surface: #fbfbf8;
+  --surface-muted: #f6f6f1;
+  --input: #ffffff;
+  --secondary: #f6f6f1;
+  --accent: #f6f6f1;
+  --primary: #1a1a18;
+  --primary-foreground: #f8f8f4;
+  --muted-foreground: #62625d;
+  --text-primary: var(--foreground);
+  --text-secondary: #62625d;
+  --text-muted: #8d8d86;
+  --border: #d8d8d1;
+  --border-strong: #c6c6be;
+  --border-subtle: #e4e4de;
+  --focus-border: #1a1a18;
+  --topbar: #1a1a18;
+  --topbar-bg: #1a1a18;
+  --topbar-border: #2e2e29;
+  --topbar-border-hover: #45453f;
+  --topbar-text: #e8e8e2;
+  --topbar-muted: #9a9a93;
+  --topbar-menu-bg: #11110f;
+  --topbar-menu-item-bg: #1a1a18;
+  --topbar-menu-item-border: #3a3a35;
+  --sidebar: #f4f4f0;
+  --sidebar-bg: #f4f4f0;
+  --sidebar-border: #dededb;
+  --sidebar-text: #44443f;
+  --modal-overlay: rgba(17, 17, 17, 0.38);
+  --radius: 0.25rem;
+  --font-mono: "Cascadia Mono", "Consolas", "Courier New", monospace;
+
+  --success: #215d36;
+  --pending: #2a557e;
+  --warning: #9b6c10;
+  --error: #8c201c;
+  --neutral: #6c6c66;
+
+  --success-bg: #eef7f0;
+  --success-border: #cfd6cb;
+  --warning-bg: #fcf7e8;
+  --warning-border: #d7bc7e;
+  --error-bg: #fbefee;
+  --error-border: #d9b8b5;
+  --danger-bg: #8c201c;
+  --danger-foreground: #f8f8f4;
+  --disabled-bg: #c9c9c1;
+  --disabled-foreground: #6d6d67;
+
+  --status-queued: #6c6c66;
+  --status-queued-bg: #eeeeea;
+  --status-queued-border: #cfcfc8;
+  --status-running: #2a557e;
+  --status-running-bg: #edf3f9;
+  --status-running-border: #b9cadd;
+  --status-success: var(--success);
+  --status-success-bg: var(--success-bg);
+  --status-success-border: var(--success-border);
+  --status-error: var(--error);
+  --status-error-bg: var(--error-bg);
+  --status-error-border: var(--error-border);
+  --status-warning: var(--warning);
+  --status-warning-bg: var(--warning-bg);
+  --status-warning-border: var(--warning-border);
+  --status-cancelled: #6c6c66;
+  --status-cancelled-bg: #eeeeea;
+  --status-cancelled-border: #cfcfc8;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --background: #111110;
+  --foreground: #ecece7;
+  --card: #171715;
+  --surface: #171715;
+  --surface-muted: #20201d;
+  --input: #141412;
+  --secondary: #20201d;
+  --accent: #242420;
+  --primary: #ecece7;
+  --primary-foreground: #111110;
+  --muted-foreground: #a3a39b;
+  --text-primary: var(--foreground);
+  --text-secondary: #b4b4ac;
+  --text-muted: #85857d;
+  --border: #30302b;
+  --border-strong: #45453e;
+  --border-subtle: #292925;
+  --focus-border: #ecece7;
+  --topbar: #0c0c0b;
+  --topbar-bg: #0c0c0b;
+  --topbar-border: #2b2b27;
+  --topbar-border-hover: #5a5a52;
+  --topbar-text: #f0f0eb;
+  --topbar-muted: #a2a29a;
+  --topbar-menu-bg: #11110f;
+  --topbar-menu-item-bg: #20201d;
+  --topbar-menu-item-border: #46463f;
+  --sidebar: #151513;
+  --sidebar-bg: #151513;
+  --sidebar-border: #2c2c28;
+  --sidebar-text: #d2d2ca;
+  --modal-overlay: rgba(0, 0, 0, 0.58);
+
+  --success: #7ac98b;
+  --pending: #83b7e8;
+  --warning: #d7b35a;
+  --error: #ee8c86;
+  --neutral: #a4a49c;
+
+  --success-bg: #18241b;
+  --success-border: #33563a;
+  --warning-bg: #272113;
+  --warning-border: #604c1e;
+  --error-bg: #2a1716;
+  --error-border: #64302c;
+  --danger-bg: #a13a35;
+  --danger-foreground: #fff5f3;
+  --disabled-bg: #2b2b27;
+  --disabled-foreground: #77776f;
+
+  --status-queued: #a4a49c;
+  --status-queued-bg: #242421;
+  --status-queued-border: #3e3e38;
+  --status-running: #83b7e8;
+  --status-running-bg: #172231;
+  --status-running-border: #365a7b;
+  --status-success: var(--success);
+  --status-success-bg: var(--success-bg);
+  --status-success-border: var(--success-border);
+  --status-error: var(--error);
+  --status-error-bg: var(--error-bg);
+  --status-error-border: var(--error-border);
+  --status-warning: var(--warning);
+  --status-warning-bg: var(--warning-bg);
+  --status-warning-border: var(--warning-border);
+  --status-cancelled: #a4a49c;
+  --status-cancelled-bg: #242421;
+  --status-cancelled-border: #3e3e38;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  font-size: 13px;
+}
+
+button,
+input,
+textarea,
+select,
+video {
+  font: inherit;
+}
+
+* {
+  box-sizing: border-box;
+}

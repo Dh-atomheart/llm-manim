@@ -95,10 +95,14 @@ Tauri command：
 - 用户可输入提示词并选择 Provider。
 - 点击生成后看到任务进入 queued/running。
 - 成功后可在应用内播放 MP4。
+- 成功后可通过 `open_render_artifact` 定位或打开产物，前端不直接拼接本地路径。
 - 失败后可看到错误摘要、错误码和建议动作。
 - running/queued 任务可取消。
 - failed/cancelled 任务可重试。
 - 任务历史可回看，刷新页面后状态仍来自后端/SQLite。
+- runtime broken/missing 时，生成按钮禁用，并能在基础设置页看到 Python、uv、Manim CE、`uv run manim`、FFmpeg、FFprobe 的逐项状态。
+- 真实桌面端手工验收需覆盖：无 Provider、runtime broken、提交任务、轮询状态、取消、重试、成功预览、artifact 打开、失败日志展示和窄屏布局。
+- 所有用户可见中文文案必须按 UTF-8 正常显示；不得出现 mojibake、替换字符或控制台编码伪影。
 - 前端只通过 command client 访问后端，不直接散落 `invoke(...)`。
 - 前端不展示 API Key。
 - UI 符合黑白灰主色、线条组件、彩色语义提示的规范；所有状态色均配有文字或图标说明。

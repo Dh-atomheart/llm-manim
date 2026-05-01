@@ -1,0 +1,425 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.surface,
+.listPanel,
+.detailPanel,
+.detailCard {
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.surface {
+  padding: 16px;
+}
+
+.heroHeader,
+.panelHeader,
+.subpanelHeader,
+.detailHeader,
+.composerActions,
+.detailActions,
+.previewMeta,
+.jobRowTop,
+.jobRowActions,
+.jobMeta,
+.paginationBar,
+.logMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.heroHeader,
+.panelHeader,
+.subpanelHeader,
+.detailHeader {
+  margin-bottom: 14px;
+}
+
+.sectionTitle,
+.panelTitle,
+.subpanelTitle {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.sectionCopy {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.summaryCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+
+.summaryLabel,
+.panelMeta,
+.fieldLabel {
+  color: var(--text-muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.summaryValue {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.composerGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.select,
+.textarea,
+.primaryButton,
+.secondaryButton,
+.inlineButton,
+.jobRow,
+.paginationBar {
+  font: inherit;
+}
+
+.select,
+.textarea {
+  width: 100%;
+  border: 1px solid var(--border-strong);
+  background: var(--input);
+  color: var(--text-primary);
+}
+
+.select {
+  min-height: 34px;
+  padding: 0 10px;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+  padding: 10px;
+  line-height: 1.5;
+}
+
+.primaryButton,
+.secondaryButton,
+.inlineButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--border-strong);
+  cursor: pointer;
+}
+
+.primaryButton {
+  background: var(--text-primary);
+  color: var(--surface);
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.secondaryButton,
+.inlineButton {
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.warningBanner,
+.errorBanner,
+.infoBanner,
+.inlineError,
+.failureBox {
+  padding: 12px;
+  line-height: 1.5;
+}
+
+.warningBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--warning-border);
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+.errorBanner,
+.inlineError,
+.failureBox {
+  border: 1px solid var(--error-border);
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.infoBanner {
+  border: 1px solid var(--success-border);
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.workspaceGrid {
+  display: grid;
+  grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+  gap: 14px;
+  min-height: 0;
+}
+
+.listPanel,
+.detailPanel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.listPanel,
+.detailPanel,
+.detailCard {
+  padding: 14px;
+}
+
+.jobList,
+.detailStack,
+.logList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+
+.jobList,
+.logList {
+  overflow-y: auto;
+}
+
+.jobRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+}
+
+.jobRowActions {
+  justify-content: flex-end;
+}
+
+.paginationBar {
+  justify-content: center;
+  padding-top: 4px;
+}
+
+.jobRow:hover,
+.jobRowActive {
+  border-color: var(--border-strong);
+  background: var(--input);
+}
+
+.jobPrompt,
+.promptText,
+.logMessage {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.jobPrompt {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.jobTime,
+.jobMeta,
+.previewMeta,
+.logMeta {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.statusWrap {
+  display: inline-flex;
+}
+
+.stateBadge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 8px;
+  border: 1px solid currentColor;
+  font-size: 12px;
+}
+
+.stateQueued {
+  color: var(--pending);
+}
+
+.stateRunning {
+  color: var(--warning);
+}
+
+.stateSucceeded {
+  color: var(--success);
+}
+
+.stateFailed {
+  color: var(--error);
+}
+
+.stateCancelled,
+.stateNeutral {
+  color: var(--neutral);
+}
+
+.detailStack {
+  overflow-y: auto;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.metaGrid dt {
+  color: var(--text-muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.metaGrid dd {
+  margin: 4px 0 0;
+  color: var(--text-primary);
+}
+
+.promptBlock {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.promptText {
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  line-height: 1.5;
+}
+
+.failureBox {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.failureBox p {
+  margin: 0;
+}
+
+.previewStack {
+  display: grid;
+  gap: 10px;
+}
+
+.video {
+  width: 100%;
+  max-height: 360px;
+  background: #000;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  padding: 16px;
+  border: 1px dashed var(--border-strong);
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.logRow {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+
+.logStage {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.logLevel {
+  font-family: "Cascadia Mono", Consolas, monospace;
+}
+
+@media (max-width: 1100px) {
+  .summaryGrid,
+  .workspaceGrid,
+  .metaGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .heroHeader,
+  .panelHeader,
+  .subpanelHeader,
+  .detailHeader,
+  .warningBanner,
+  .composerActions,
+  .detailActions,
+  .previewMeta,
+  .jobRowTop,
+  .jobRowActions,
+  .jobMeta,
+  .paginationBar,
+  .logMeta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

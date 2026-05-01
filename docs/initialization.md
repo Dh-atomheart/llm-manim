@@ -152,7 +152,7 @@ uv add manim
 执行：
 
 ```powershell
-uv run manim checkhealth
+uv run --with manim manim checkhealth
 ```
 
 若提示 LaTeX 缺失或不可用，检查 MiKTeX 是否已安装，并打开 MiKTeX Console 完成首次配置。Manim 渲染数学公式时依赖 LaTeX。
@@ -163,7 +163,7 @@ uv run manim checkhealth
 验证命令形态：
 
 ```powershell
-uv run manim path\to\scene.py SceneName -ql
+uv run --with manim manim path\to\scene.py SceneName -ql
 ```
 
 V1 默认产品输出为 720p/30fps；开发期可先使用 `-ql` 快速验证环境。
@@ -190,7 +190,7 @@ cd ..
 
 ### 7.4 Manim 验证
 ```powershell
-uv run manim checkhealth
+uv run --with manim manim checkhealth
 ```
 
 初始化完成的最低验收条件：
@@ -198,7 +198,7 @@ uv run manim checkhealth
 - Tauri dev 窗口可启动。
 - 前端构建通过。
 - `cargo check` 通过。
-- `uv run manim checkhealth` 不报告阻塞性错误。
+- `uv run --with manim manim checkhealth` 不报告阻塞性错误。
 
 ## 8. Windows 常见问题
 ### 8.1 PowerShell 拦截 npm.ps1

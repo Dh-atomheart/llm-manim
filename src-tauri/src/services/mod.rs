@@ -1,5 +1,12 @@
+pub mod artifact;
 pub mod db;
 pub mod logging;
+pub mod manim_compat;
+pub mod orchestrator;
+pub mod prompt;
 pub mod provider;
+pub mod queue;
 pub mod redact;
+pub mod render;
+pub mod static_checker;
 pub mod workspace;

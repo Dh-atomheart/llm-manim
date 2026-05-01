@@ -51,6 +51,8 @@ class LagRatioDemo(Scene):
 
 Convenience class with default `lag_ratio=0.05` (5% overlap).
 
+When building animations from `.animate`, expand the generated list with `*`. Do not pass the list itself to `self.play`, `AnimationGroup`, `LaggedStart`, or `Succession`, and do not inspect animation builders with `len(...)`.
+
 ```python
 class LaggedStartExample(Scene):
     def construct(self):

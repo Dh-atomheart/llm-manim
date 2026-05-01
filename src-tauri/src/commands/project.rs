@@ -80,7 +80,9 @@ async fn create_project_inner(name: String, state: &AppState) -> AppResponse<Pro
         ));
     }
 
-    let project_dir = PathBuf::from(workspace_path).join("projects").join(&project_id);
+    let project_dir = PathBuf::from(workspace_path)
+        .join("projects")
+        .join(&project_id);
     if let Err(error) = fs::create_dir_all(&project_dir).await {
         let _ = sqlx::query("DELETE FROM projects WHERE id = ?")
             .bind(&project_id)
@@ -178,11 +180,7 @@ async fn delete_project_inner(id: String, state: &AppState) -> AppResponse<Empty
     {
         Ok(result) => result,
         Err(error) => {
-            return AppResponse::err(AppError::new(
-                E_DB,
-                format!("无法删除项目: {error}"),
-                false,
-            ));
+            return AppResponse::err(AppError::new(E_DB, format!("无法删除项目: {error}"), false));
         }
     };
 

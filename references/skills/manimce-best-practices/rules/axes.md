@@ -78,6 +78,8 @@ class NumberPlaneExample(Scene):
         self.add(plane)
 ```
 
+`background_line_style` is for `NumberPlane`/`ComplexPlane` grid lines. Do not pass it to `Axes` or `ThreeDAxes`; use `axis_config`, `x_axis_config`, `y_axis_config`, and `z_axis_config` for axis styling.
+
 ### Customizing NumberPlane
 
 ```python

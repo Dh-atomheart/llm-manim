@@ -12,6 +12,7 @@ import type {
   SaveProviderConfigInput,
   TestProviderConfigInput,
 } from "../commands/types";
+import { useProviderStore } from "../store/provider";
 import styles from "./ProviderSettings.module.css";
 
 type TestState =
@@ -43,7 +44,9 @@ function toMessage(error: unknown): string {
 }
 
 function providerTypeLabel(providerType: ProviderType): string {
-  return providerType === "openai_compatible" ? "OpenAI-compatible" : "Anthropic-compatible";
+  return providerType === "openai_compatible"
+    ? "OpenAI-compatible"
+    : "Anthropic-compatible";
 }
 
 function isFilled(value: string): boolean {
@@ -63,7 +66,18 @@ function statusClassName(status: TestState["status"]): string {
   }
 }
 
-export default function ProviderSettings() {
+interface ProviderSettingsProps {
+  onProvidersChanged?: (providers: ProviderSummary[]) => void;
+}
+
+export default function ProviderSettings({
+  onProvidersChanged,
+}: ProviderSettingsProps) {
+  const setProviderCount = useProviderStore((state) => state.setCount);
+  const setLastTestStatus = useProviderStore(
+    (state) => state.setLastTestStatus,
+  );
+
   const [providers, setProviders] = useState<ProviderSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
@@ -116,6 +130,8 @@ export default function ProviderSettings() {
       }
 
       setProviders(response.data);
+      setProviderCount(response.data.length);
+      onProvidersChanged?.(response.data);
     } catch (error) {
       setErrorMessage(`无法读取 Provider 列表：${toMessage(error)}`);
     } finally {
@@ -162,7 +178,10 @@ export default function ProviderSettings() {
     resetForm();
   }
 
-  function patchForm<Key extends keyof ProviderFormState>(key: Key, value: ProviderFormState[Key]) {
+  function patchForm<Key extends keyof ProviderFormState>(
+    key: Key,
+    value: ProviderFormState[Key],
+  ) {
     if (key === "apiKey") {
       setConfirmPlaintextRisk(false);
     }
@@ -196,8 +215,7 @@ export default function ProviderSettings() {
       }
 
       await reloadProviders();
-      setInfoMessage(editingId ? "Provider 已更新。" : "Provider 已添加。")
-      ;
+      setInfoMessage(editingId ? "Provider 已更新。" : "Provider 已添加。");
       cancelForm();
     } catch (error) {
       setErrorMessage(`保存 Provider 失败：${toMessage(error)}`);
@@ -221,6 +239,7 @@ export default function ProviderSettings() {
           ...current,
           [key]: { status: "failed", message },
         }));
+        setLastTestStatus("failed");
         return;
       }
 
@@ -228,11 +247,16 @@ export default function ProviderSettings() {
         ...current,
         [key]: { status: "ok", message: response.data.message },
       }));
+      setLastTestStatus("ok");
     } catch (error) {
       setTestStates((current) => ({
         ...current,
-        [key]: { status: "failed", message: `连接测试失败：${toMessage(error)}` },
+        [key]: {
+          status: "failed",
+          message: `连接测试失败：${toMessage(error)}`,
+        },
       }));
+      setLastTestStatus("failed");
     }
   }
 
@@ -275,8 +299,7 @@ export default function ProviderSettings() {
 
       await reloadProviders();
       setDeleteConfirmId(null);
-      setInfoMessage("Provider 已删除。")
-      ;
+      setInfoMessage("Provider 已删除。");
     } catch (error) {
       setErrorMessage(`删除 Provider 失败：${toMessage(error)}`);
     } finally {
@@ -291,7 +314,10 @@ export default function ProviderSettings() {
           <div className={styles.headerRow}>
             <div className={styles.headerCopy}>
               <h2>模型 Provider</h2>
-              <p>配置 OpenAI-compatible 或 Anthropic-compatible 服务，并在保存前完成本地连接验证。</p>
+              <p>
+                配置 OpenAI-compatible 或 Anthropic-compatible
+                服务，并在保存前完成本地连接验证。
+              </p>
             </div>
 
             <button
@@ -300,7 +326,14 @@ export default function ProviderSettings() {
               onClick={startAdd}
               disabled={activeForm}
             >
-              <svg className={styles.buttonIcon} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+              <svg
+                className={styles.buttonIcon}
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                aria-hidden="true"
+              >
                 <path d="M8 3v10M3 8h10" />
               </svg>
               添加
@@ -308,24 +341,44 @@ export default function ProviderSettings() {
           </div>
 
           <div className={styles.warningBanner} role="alert">
-            <svg className={styles.warningIcon} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            <svg
+              className={styles.warningIcon}
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden="true"
+            >
               <path d="M8 2.5l5.5 10H2.5L8 2.5z" />
               <path d="M8 6v3.25" />
-              <circle cx="8" cy="11.5" r=".5" fill="currentColor" stroke="none" />
+              <circle
+                cx="8"
+                cy="11.5"
+                r=".5"
+                fill="currentColor"
+                stroke="none"
+              />
             </svg>
             <div className={styles.warningCopy}>
-              <strong>安全提示：</strong> API Key 会以明文存储在本机工作区数据库中。请避免在共享设备上配置高权限密钥，也不要把工作区同步到公开云盘。
+              <strong>安全提示：</strong> API Key
+              会以明文存储在本机工作区数据库中。请避免在共享设备上配置高权限密钥，也不要把工作区同步到公开云盘。
             </div>
           </div>
 
-          {errorMessage ? <div className={styles.errorBanner}>{errorMessage}</div> : null}
-          {infoMessage ? <div className={styles.infoBanner}>{infoMessage}</div> : null}
+          {errorMessage ? (
+            <div className={styles.errorBanner}>{errorMessage}</div>
+          ) : null}
+          {infoMessage ? (
+            <div className={styles.infoBanner}>{infoMessage}</div>
+          ) : null}
 
           {isLoading ? (
             <div className={styles.emptyBox}>正在读取 Provider 配置…</div>
           ) : providers.length === 0 && !isAdding ? (
             <div className={styles.emptyBox}>
-              <div className={styles.emptyState}>暂无 Provider 配置。点击“添加”开始配置。</div>
+              <div className={styles.emptyState}>
+                暂无 Provider 配置。点击“添加”开始配置。
+              </div>
             </div>
           ) : null}
 
@@ -337,12 +390,18 @@ export default function ProviderSettings() {
 
                 return (
                   <div key={provider.id} className={styles.rowWrap}>
-                    <div className={`${styles.row} ${isEditing ? styles.rowActive : ""}`}>
+                    <div
+                      className={`${styles.row} ${isEditing ? styles.rowActive : ""}`}
+                    >
                       <div className={styles.rowHeader}>
                         <div className={styles.rowMeta}>
                           <div className={styles.rowTitleLine}>
-                            <span className={styles.rowTitle}>{provider.name}</span>
-                            <span className={styles.typeTag}>{providerTypeLabel(provider.providerType)}</span>
+                            <span className={styles.rowTitle}>
+                              {provider.name}
+                            </span>
+                            <span className={styles.typeTag}>
+                              {providerTypeLabel(provider.providerType)}
+                            </span>
                           </div>
                           <p className={styles.rowCode}>{provider.baseUrl}</p>
                           <p className={styles.rowCode}>{provider.model}</p>
@@ -350,21 +409,46 @@ export default function ProviderSettings() {
 
                         <div className={styles.rowActions}>
                           {testState.status !== "idle" ? (
-                            <span className={`${styles.statusInline} ${statusClassName(testState.status)}`}>
+                            <span
+                              className={`${styles.statusInline} ${statusClassName(testState.status)}`}
+                            >
                               {testState.status === "testing" ? (
-                                <svg className={`${styles.statusIcon} ${styles.spin}`} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                                <svg
+                                  className={`${styles.statusIcon} ${styles.spin}`}
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="1.5"
+                                  aria-hidden="true"
+                                >
                                   <path d="M13 8A5 5 0 103.5 10.3" />
                                 </svg>
                               ) : testState.status === "ok" ? (
-                                <svg className={styles.statusIcon} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                                <svg
+                                  className={styles.statusIcon}
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="1.5"
+                                  aria-hidden="true"
+                                >
                                   <path d="M3 8.5l3 3 7-7" />
                                 </svg>
                               ) : (
-                                <svg className={styles.statusIcon} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                                <svg
+                                  className={styles.statusIcon}
+                                  viewBox="0 0 16 16"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="1.5"
+                                  aria-hidden="true"
+                                >
                                   <path d="M4 4l8 8M12 4l-8 8" />
                                 </svg>
                               )}
-                              <span className={styles.statusText}>{testState.message}</span>
+                              <span className={styles.statusText}>
+                                {testState.message}
+                              </span>
                             </span>
                           ) : null}
 
@@ -372,9 +456,20 @@ export default function ProviderSettings() {
                             type="button"
                             className={styles.testButton}
                             onClick={() => void handleRowTest(provider)}
-                            disabled={activeForm || deletingId === provider.id || testState.status === "testing"}
+                            disabled={
+                              activeForm ||
+                              deletingId === provider.id ||
+                              testState.status === "testing"
+                            }
                           >
-                            <svg className={styles.buttonIcon} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                            <svg
+                              className={styles.buttonIcon}
+                              viewBox="0 0 16 16"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              aria-hidden="true"
+                            >
                               <path d="M2.5 8h11" />
                               <path d="M10 5.5L13.5 8 10 10.5" />
                             </svg>
@@ -387,7 +482,14 @@ export default function ProviderSettings() {
                             disabled={activeForm && !isEditing}
                             aria-label={`编辑 ${provider.name}`}
                           >
-                            <svg className={styles.buttonIcon} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                            <svg
+                              className={styles.buttonIcon}
+                              viewBox="0 0 16 16"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              aria-hidden="true"
+                            >
                               <path d="M3 11.75l.5-2.5L10.75 2l2.25 2.25L5.75 11.5 3 11.75z" />
                             </svg>
                           </button>
@@ -395,9 +497,19 @@ export default function ProviderSettings() {
                             type="button"
                             className={`${styles.dangerButton} ${deleteConfirmId === provider.id ? styles.dangerButtonConfirm : ""}`}
                             onClick={() => void handleDelete(provider.id)}
-                            disabled={deletingId === provider.id || (activeForm && !isEditing)}
+                            disabled={
+                              deletingId === provider.id ||
+                              (activeForm && !isEditing)
+                            }
                           >
-                            <svg className={styles.buttonIcon} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                            <svg
+                              className={styles.buttonIcon}
+                              viewBox="0 0 16 16"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              aria-hidden="true"
+                            >
                               <path d="M3.5 4.5h9" />
                               <path d="M6 4.5V3.25h4V4.5" />
                               <path d="M5 6.5v5" />
@@ -405,7 +517,9 @@ export default function ProviderSettings() {
                               <path d="M11 6.5v5" />
                               <path d="M4.5 4.5l.5 8.5h6l.5-8.5" />
                             </svg>
-                            {deleteConfirmId === provider.id ? "确认删除" : "删除"}
+                            {deleteConfirmId === provider.id
+                              ? "确认删除"
+                              : "删除"}
                           </button>
                         </div>
                       </div>
@@ -466,7 +580,10 @@ export default function ProviderSettings() {
 
 interface ProviderFormProps {
   form: ProviderFormState;
-  setForm: <Key extends keyof ProviderFormState>(key: Key, value: ProviderFormState[Key]) => void;
+  setForm: <Key extends keyof ProviderFormState>(
+    key: Key,
+    value: ProviderFormState[Key],
+  ) => void;
   showKey: boolean;
   onToggleKey: () => void;
   onCancel: () => void;
@@ -519,12 +636,22 @@ function ProviderForm({
             <select
               className={styles.select}
               value={form.providerType}
-              onChange={(event) => setForm("providerType", event.target.value as ProviderType)}
+              title="Provider 类型"
+              onChange={(event) =>
+                setForm("providerType", event.target.value as ProviderType)
+              }
             >
               <option value="openai_compatible">OpenAI-compatible</option>
               <option value="anthropic_compatible">Anthropic-compatible</option>
             </select>
-            <svg className={styles.selectIcon} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            <svg
+              className={styles.selectIcon}
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden="true"
+            >
               <path d="M4 6l4 4 4-4" />
             </svg>
           </div>
@@ -537,7 +664,11 @@ function ProviderForm({
             className={`${styles.input} ${styles.monoInput}`}
             value={form.baseUrl}
             onChange={(event) => setForm("baseUrl", event.target.value)}
-            placeholder={form.providerType === "openai_compatible" ? "https://api.deepseek.com 或 https://api.openai.com/v1" : "https://api.anthropic.com"}
+            placeholder={
+              form.providerType === "openai_compatible"
+                ? "https://api.deepseek.com 或 https://api.openai.com/v1"
+                : "https://api.anthropic.com"
+            }
           />
           <div className={styles.hintText}>
             {form.providerType === "openai_compatible"
@@ -553,7 +684,11 @@ function ProviderForm({
             className={`${styles.input} ${styles.monoInput}`}
             value={form.model}
             onChange={(event) => setForm("model", event.target.value)}
-            placeholder={form.providerType === "openai_compatible" ? "deepseek-v3 / gpt-4o" : "claude-3-5-sonnet-20241022"}
+            placeholder={
+              form.providerType === "openai_compatible"
+                ? "deepseek-v3 / gpt-4o"
+                : "claude-3-5-sonnet-20241022"
+            }
           />
         </div>
 
@@ -565,19 +700,40 @@ function ProviderForm({
               className={`${styles.keyInput} ${styles.monoInput}`}
               value={form.apiKey}
               onChange={(event) => setForm("apiKey", event.target.value)}
-              placeholder={canReuseStoredKey ? "留空则继续使用已保存的 API Key" : "sk-..."}
+              placeholder={
+                canReuseStoredKey ? "留空则继续使用已保存的 API Key" : "sk-..."
+              }
               aria-label="API Key"
             />
-            <button type="button" className={styles.keyToggle} onClick={onToggleKey} aria-label={showKey ? "隐藏 API Key" : "显示 API Key"}>
+            <button
+              type="button"
+              className={styles.keyToggle}
+              onClick={onToggleKey}
+              aria-label={showKey ? "隐藏 API Key" : "显示 API Key"}
+            >
               {showKey ? (
-                <svg className={styles.buttonIcon} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <svg
+                  className={styles.buttonIcon}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  aria-hidden="true"
+                >
                   <path d="M2 2l12 12" />
                   <path d="M6.1 6.1A3 3 0 019.9 9.9" />
                   <path d="M3.3 6.2C4.7 4.6 6.3 3.8 8 3.8c2.5 0 4.8 1.8 6.7 4.2-.7.9-1.4 1.6-2.1 2.2" />
                   <path d="M6.4 12.1c.5.1 1 .1 1.6.1 2.5 0 4.8-1.8 6.7-4.2-.5-.7-1-1.3-1.6-1.8" />
                 </svg>
               ) : (
-                <svg className={styles.buttonIcon} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <svg
+                  className={styles.buttonIcon}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  aria-hidden="true"
+                >
                   <path d="M1.8 8s2.4-4.2 6.2-4.2S14.2 8 14.2 8 11.8 12.2 8 12.2 1.8 8 1.8 8z" />
                   <circle cx="8" cy="8" r="2" />
                 </svg>
@@ -585,7 +741,9 @@ function ProviderForm({
             </button>
           </div>
           {canReuseStoredKey ? (
-            <div className={styles.hintText}>列表接口不会返回已保存的 Key。若无需更新，可留空。</div>
+            <div className={styles.hintText}>
+              列表接口不会返回已保存的 Key。若无需更新，可留空。
+            </div>
           ) : null}
         </div>
       </div>
@@ -596,26 +754,54 @@ function ProviderForm({
             type="checkbox"
             className={styles.checkbox}
             checked={confirmPlaintextRisk}
-            onChange={(event) => onConfirmPlaintextRiskChange(event.target.checked)}
+            onChange={(event) =>
+              onConfirmPlaintextRiskChange(event.target.checked)
+            }
           />
-          <span>我已知晓 API Key 将以明文保存到本机工作区数据库中，并确认当前设备适合存放该密钥。</span>
+          <span>
+            我已知晓 API Key
+            将以明文保存到本机工作区数据库中，并确认当前设备适合存放该密钥。
+          </span>
         </label>
       ) : null}
 
       <div className={styles.formActions}>
         <div>
           {testState.status !== "idle" ? (
-            <span className={`${styles.statusInline} ${statusClassName(testState.status)}`}>
+            <span
+              className={`${styles.statusInline} ${statusClassName(testState.status)}`}
+            >
               {testState.status === "testing" ? (
-                <svg className={`${styles.statusIcon} ${styles.spin}`} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <svg
+                  className={`${styles.statusIcon} ${styles.spin}`}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  aria-hidden="true"
+                >
                   <path d="M13 8A5 5 0 103.5 10.3" />
                 </svg>
               ) : testState.status === "ok" ? (
-                <svg className={styles.statusIcon} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <svg
+                  className={styles.statusIcon}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  aria-hidden="true"
+                >
                   <path d="M3 8.5l3 3 7-7" />
                 </svg>
               ) : (
-                <svg className={styles.statusIcon} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <svg
+                  className={styles.statusIcon}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  aria-hidden="true"
+                >
                   <path d="M4 4l8 8M12 4l-8 8" />
                 </svg>
               )}
@@ -625,13 +811,28 @@ function ProviderForm({
         </div>
 
         <div className={styles.formActionsRight}>
-          <button type="button" className={styles.secondaryButton} onClick={onTest} disabled={testState.status === "testing" || isSaving}>
+          <button
+            type="button"
+            className={styles.secondaryButton}
+            onClick={onTest}
+            disabled={testState.status === "testing" || isSaving}
+          >
             测试连接
           </button>
-          <button type="button" className={styles.ghostButton} onClick={onCancel} disabled={isSaving}>
+          <button
+            type="button"
+            className={styles.ghostButton}
+            onClick={onCancel}
+            disabled={isSaving}
+          >
             取消
           </button>
-          <button type="button" className={styles.actionButton} onClick={onSave} disabled={!canSave || isSaving}>
+          <button
+            type="button"
+            className={styles.actionButton}
+            onClick={onSave}
+            disabled={!canSave || isSaving}
+          >
             {isSaving ? "保存中" : saveLabel}
           </button>
         </div>

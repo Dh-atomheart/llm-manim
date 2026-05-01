@@ -12,13 +12,27 @@ interface FirstLaunchProps {
 type DisplayStatus = RuntimeComponentStatus | "checking" | "idle";
 
 const RUNTIME_ITEMS: Array<{
-  key: keyof Pick<RuntimeStatus, "python" | "uv" | "manim" | "ffmpeg">;
+  key: keyof Pick<
+    RuntimeStatus,
+    | "python"
+    | "uv"
+    | "manim"
+    | "uvManim"
+    | "ffmpeg"
+    | "ffprobe"
+    | "latex"
+    | "dvisvgm"
+  >;
   label: string;
 }> = [
   { key: "python", label: "Python 3.10+" },
   { key: "uv", label: "uv" },
-  { key: "manim", label: "Manim CE" },
+  { key: "manim", label: "Manim CE（可选，全局）" },
+  { key: "uvManim", label: "uv 托管 Manim" },
   { key: "ffmpeg", label: "FFmpeg" },
+  { key: "ffprobe", label: "FFprobe" },
+  { key: "latex", label: "LaTeX / MiKTeX" },
+  { key: "dvisvgm", label: "dvisvgm" },
 ];
 
 function toMessage(error: unknown): string {
@@ -50,8 +64,12 @@ export default function FirstLaunch({
   initialWorkspacePath,
   onComplete,
 }: FirstLaunchProps) {
-  const [workspacePath, setWorkspacePath] = useState(initialWorkspacePath ?? "");
-  const [runtimeStatus, setRuntimeStatus] = useState<RuntimeStatus | null>(null);
+  const [workspacePath, setWorkspacePath] = useState(
+    initialWorkspacePath ?? "",
+  );
+  const [runtimeStatus, setRuntimeStatus] = useState<RuntimeStatus | null>(
+    null,
+  );
   const [isCheckingRuntime, setIsCheckingRuntime] = useState(false);
   const [isInitializing, setIsInitializing] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -84,7 +102,7 @@ export default function FirstLaunch({
     setFeedback(null);
 
     try {
-      const response = await checkRuntime();
+      const response = await checkRuntime(workspacePath.trim() || undefined);
       if (!response.ok) {
         setErrorMessage(response.error.message);
         setRuntimeStatus(null);
@@ -129,9 +147,15 @@ export default function FirstLaunch({
   const canContinue = workspacePath.trim().length > 0 && hasCheckedRuntime;
   const hasMissingDependency =
     runtimeStatus !== null &&
-    [runtimeStatus.python, runtimeStatus.uv, runtimeStatus.manim, runtimeStatus.ffmpeg].some(
-      (info) => info.status === "missing",
-    );
+    [
+      runtimeStatus.python,
+      runtimeStatus.uv,
+      runtimeStatus.uvManim,
+      runtimeStatus.ffmpeg,
+      runtimeStatus.ffprobe,
+      runtimeStatus.latex,
+      runtimeStatus.dvisvgm,
+    ].some((info) => info.status === "missing");
 
   return (
     <div className={styles.screen}>
@@ -146,7 +170,8 @@ export default function FirstLaunch({
         <header className={styles.header}>
           <h1 className={styles.title}>初始化工作区</h1>
           <p className={styles.summary}>
-            项目、数据库、日志和渲染产物都会保存在这个目录下。M2 先建立标准结构和 SQLite 元数据。
+            项目、数据库、日志和渲染产物都会保存在这个目录下。M2
+            先建立标准结构和 SQLite 元数据。
           </p>
         </header>
 
@@ -175,7 +200,8 @@ export default function FirstLaunch({
           </div>
 
           <p className={styles.pathHint}>
-            应用会在所选目录下创建 config、db、projects、jobs、artifacts、logs、temp 和 .runtime。
+            应用会在所选目录下创建
+            config、db、projects、jobs、artifacts、logs、temp 和 .runtime。
           </p>
         </section>
 
@@ -194,26 +220,44 @@ export default function FirstLaunch({
 
           <div className={styles.statusList} role="list">
             {RUNTIME_ITEMS.map((item) => {
-              const componentInfo = isCheckingRuntime ? null : runtimeStatus?.[item.key];
+              const componentInfo = isCheckingRuntime
+                ? null
+                : runtimeStatus?.[item.key];
               const status: DisplayStatus = isCheckingRuntime
                 ? "checking"
-                : componentInfo?.status ?? "idle";
+                : (componentInfo?.status ?? "idle");
               const version = componentInfo?.version;
 
               return (
-                <div key={item.key} className={styles.statusItem} role="listitem">
+                <div
+                  key={item.key}
+                  className={styles.statusItem}
+                  role="listitem"
+                >
                   <span className={styles.statusLabel}>{item.label}</span>
                   <div className={styles.statusMeta}>
                     {version ? (
                       <span className={styles.versionText}>{version}</span>
                     ) : null}
-                    <span className={styles.statusText}>{labelForStatus(status)}</span>
+                    <span className={styles.statusText}>
+                      {labelForStatus(status)}
+                    </span>
                     {status === "checking" ? (
-                      <span className={`${styles.statusIndicator} ${styles.statusChecking}`} />
+                      <span
+                        className={`${styles.statusIndicator} ${styles.statusChecking}`}
+                      />
                     ) : status === "ok" ? (
-                      <span className={`${styles.statusIndicator} ${styles.statusOk}`}>✓</span>
+                      <span
+                        className={`${styles.statusIndicator} ${styles.statusOk}`}
+                      >
+                        ✓
+                      </span>
                     ) : status === "missing" ? (
-                      <span className={`${styles.statusIndicator} ${styles.statusMissing}`}>!</span>
+                      <span
+                        className={`${styles.statusIndicator} ${styles.statusMissing}`}
+                      >
+                        !
+                      </span>
                     ) : (
                       <span className={styles.statusIndicator}>·</span>
                     )}
@@ -226,7 +270,9 @@ export default function FirstLaunch({
           {hasCheckedRuntime && runtimeStatus !== null ? (
             <div
               className={`${styles.callout} ${
-                hasMissingDependency ? styles.calloutWarn : styles.calloutSuccess
+                hasMissingDependency
+                  ? styles.calloutWarn
+                  : styles.calloutSuccess
               }`}
             >
               {runtimeStatus.message}
@@ -235,7 +281,9 @@ export default function FirstLaunch({
         </section>
 
         {errorMessage ? (
-          <div className={`${styles.callout} ${styles.calloutError}`}>{errorMessage}</div>
+          <div className={`${styles.callout} ${styles.calloutError}`}>
+            {errorMessage}
+          </div>
         ) : null}
         {feedback ? <div className={styles.feedback}>{feedback}</div> : null}
 

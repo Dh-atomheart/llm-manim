@@ -18,6 +18,10 @@ export function initializeWorkspace(
   });
 }
 
-export function checkRuntime(): Promise<AppResponse<RuntimeStatus>> {
-  return invoke<AppResponse<RuntimeStatus>>("check_runtime");
+export function checkRuntime(
+  workspacePath?: string,
+): Promise<AppResponse<RuntimeStatus>> {
+  return invoke<AppResponse<RuntimeStatus>>("check_runtime", {
+    workspacePath,
+  });
 }

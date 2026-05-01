@@ -136,7 +136,7 @@ runtime 创建、版本锁定、健康检查和子进程管理见 [runtime-manag
 命令由应用固定生成。模板：
 
 ```text
-uv run manim jobs/{job_id}/generated_scene.py {SceneName} -qm --format=mp4 --media_dir artifacts/{project_id}/{job_id}/media
+uv run --with manim manim --config_file jobs/{job_id}/manim.cfg jobs/{job_id}/generated_scene.py {SceneName} -qm --format=mp4 --media_dir artifacts/{project_id}/{job_id}/media
 ```
 
 V1 产品默认目标为 720p/30fps。若 Manim quality flag 与 720p/30fps 不能完全一致，应通过 `manim.cfg` 固定：

@@ -54,20 +54,20 @@
 }
 
 .actionButton {
-  border-color: #1a1a18;
-  background: #1a1a18;
-  color: #f8f8f4;
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--primary-foreground);
 }
 
 .dangerButton {
-  border-color: #8c201c;
-  color: #8c201c;
+  border-color: var(--error);
+  color: var(--error);
 }
 
 .dangerButtonConfirm {
-  border-color: #8c201c;
-  background: #8c201c;
-  color: #f8f8f4;
+  border-color: var(--danger-bg);
+  background: var(--danger-bg);
+  color: var(--danger-foreground);
 }
 
 .iconButton,
@@ -102,7 +102,7 @@
 }
 
 .warningBanner {
-  border-color: #d7bc7e;
+  border-color: var(--warning-border);
 }
 
 .warningIcon,
@@ -127,12 +127,12 @@
 }
 
 .errorBanner {
-  border-color: #d9b8b5;
+  border-color: var(--error-border);
   color: var(--error);
 }
 
 .infoBanner {
-  border-color: #cfd6cb;
+  border-color: var(--success-border);
   color: var(--success);
 }
 
@@ -234,7 +234,7 @@
 .formShell {
   border-top: 1px solid var(--border);
   padding: 14px;
-  background: #fcfcf9;
+  background: var(--surface-muted);
 }
 
 .formGrid {
@@ -267,7 +267,7 @@
   height: 34px;
   padding: 0 10px;
   border: 1px solid var(--border-strong);
-  background: #ffffff;
+  background: var(--input);
   color: var(--text-primary);
 }
 
@@ -275,7 +275,7 @@
 .select:focus,
 .keyInput:focus {
   outline: none;
-  border-color: #1a1a18;
+  border-color: var(--focus-border);
 }
 
 .monoInput {
@@ -336,7 +336,7 @@
   align-items: flex-start;
   gap: 8px;
   padding: 10px 12px;
-  border: 1px solid #d7bc7e;
+  border: 1px solid var(--warning-border);
   color: var(--text-primary);
   font-size: 12px;
   line-height: 1.6;

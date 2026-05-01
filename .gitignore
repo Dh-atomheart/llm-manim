@@ -15,6 +15,7 @@ src-tauri/target
 
 # Workspace helpers
 .tmp-m1-seed/
+.runtime/
 
 # AI Conponents
 .claude/

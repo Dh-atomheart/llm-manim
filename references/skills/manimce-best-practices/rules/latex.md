@@ -13,6 +13,9 @@ Manim uses LaTeX to render mathematical expressions and formatted text.
 
 - **MathTex**: Automatically wraps content in math mode (`align*` environment)
 - **Tex**: Raw LaTeX - you control the mode
+- Keep Chinese or natural-language prose in `Text`, not `MathTex`.
+- Use `MathTex`/`Tex` only for ASCII/raw LaTeX math strings. Put explanatory prose beside the formula with `Text`.
+- For pure formulas, prefer `MathTex(r"\lambda = 2L")`. If using `Tex`, include math delimiters: `Tex(r"$\lambda = 2L$")`.
 
 ```python
 from manim import *

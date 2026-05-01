@@ -128,8 +128,12 @@ artifacts/{project_id}/{job_id}/output.mp4
 - Manim 渲染失败时任务 `failed`，错误为 `E_RENDER_FAIL`。
 - MP4 硬质量失败时任务 `failed`，错误为 `E_ARTIFACT_INVALID`。
 - 成功任务生成 `RenderArtifact`。
+- `check_runtime` 必须同时检查独立命令和当前 workspace 下的 `uv run manim --version`，避免单独命令可用但实际渲染命令不可用。
+- runtime 非 ready 时返回 `errorCode: E_RUNTIME_INVALID`，并在 UI 中显示 `uv run manim` 的单独状态。
+- 端到端验收必须至少跑通一次真实闭环：Provider 返回固定 ManimCE 代码、静态检查通过、`uv run manim` 生成 MP4、ffprobe 校验通过、artifact 入库、`get_video_file_url` 可返回可播放 URL。
 - running 任务可取消，应用不崩溃。
 - failed/cancelled 任务可手动重试，并创建新 job。
+- `open_render_artifact` 需在目标操作系统手工验证 `open_file` 与 `reveal_in_folder`，覆盖路径含空格和中文的 artifact。
 - M4 输出的数据足够 M5 对接参考工作台 UI，不需要前端猜测状态、拼接路径或直接读取文件。
 - M4 不引入 LangChain、LangGraph 或类似 agent 框架。
 
@@ -137,4 +141,4 @@ artifacts/{project_id}/{job_id}/output.mp4
 - Provider 输出不稳定：严格解析唯一代码块，失败即进入 `E_LLM_OUTPUT_INVALID`。
 - 静态校验漏判：V1 使用 Python AST + denylist，并用危险关键字和 ManimGL 样例做回归测试。
 - Windows 子进程取消复杂：必须跟踪 Manim 子进程句柄，取消失败返回 `E_CANCEL_FAILED`。
-- Runtime 不可用：`check_runtime` 必须提前暴露缺失依赖。
+- Runtime 不可用：`check_runtime` 必须提前暴露缺失依赖和 `uv run manim` 工作区启动失败，并用 `E_RUNTIME_INVALID` 标记非 ready 状态。

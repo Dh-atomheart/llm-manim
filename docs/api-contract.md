@@ -1,10 +1,13 @@
 # LLM-Manim V1 API 合同
 
 ## 1. 目标
+
 本文定义 React 前端与 Tauri/Rust 后端之间的 command 合同。所有 command 必须使用统一返回格式，不允许按命令自由定义错误结构。
 
 ## 2. 统一返回格式
+
 ### 2.1 成功
+
 ```json
 {
   "ok": true,
@@ -13,6 +16,7 @@
 ```
 
 ### 2.2 失败
+
 ```json
 {
   "ok": false,
@@ -36,7 +40,9 @@
 - `error.retryable`：是否适合用户直接重试。
 
 ## 3. 通用类型
+
 ### 3.1 JobState
+
 ```text
 queued | running | succeeded | failed | cancelled
 ```
@@ -59,6 +65,7 @@ failed -> queued     (manual retry creates a new attempt or requeues copied job)
 - `failed -> succeeded`
 
 ### 3.2 ProviderType
+
 ```text
 openai_compatible | anthropic_compatible
 ```
@@ -66,17 +73,21 @@ openai_compatible | anthropic_compatible
 DeepSeek 使用 `openai_compatible`。
 
 ### 3.3 LogLevel
+
 ```text
 debug | info | warn | error
 ```
 
 ### 3.4 LogStage
+
 ```text
 workspace | provider | prompt | llm | parse | static_check | queue | render | artifact | user_action
 ```
 
 ## 4. Workspace Commands
+
 ### 4.1 `get_workspace_status`
+
 Request:
 
 ```json
@@ -102,6 +113,7 @@ Errors:
 State impact: none.
 
 ### 4.2 `initialize_workspace`
+
 Request:
 
 ```json
@@ -133,10 +145,13 @@ State impact:
 - Persists workspace config.
 
 ### 4.3 `check_runtime`
+
 Request:
 
 ```json
-{}
+{
+  "workspacePath": "C:\\ManimWorkspace"
+}
 ```
 
 Success data:
@@ -144,26 +159,61 @@ Success data:
 ```json
 {
   "status": "ready",
-  "python": "ok",
-  "uv": "ok",
-  "manim": "ok",
-  "ffmpeg": "ok",
-  "latex": "ok",
-  "message": "运行环境可用"
+  "python": {
+    "status": "ok",
+    "version": "3.12.0"
+  },
+  "uv": {
+    "status": "ok",
+    "version": "0.5.0"
+  },
+  "manim": {
+    "status": "ok",
+    "version": "0.19.0"
+  },
+  "uvManim": {
+    "status": "ok",
+    "version": "0.19.0"
+  },
+  "ffmpeg": {
+    "status": "ok",
+    "version": "7.1"
+  },
+  "ffprobe": {
+    "status": "ok",
+    "version": "7.1"
+  },
+  "latex": {
+    "status": "ok",
+    "version": "MiKTeX"
+  },
+  "dvisvgm": {
+    "status": "ok",
+    "version": "3.4"
+  },
+  "message": "运行环境可用，可在当前工作区启动 Manim 渲染"
 }
 ```
 
 Errors:
 
-- `E_DEP_MISSING`
-- `E_RUNTIME_INVALID`
 - `E_IO`
 
 State impact:
 
 - Writes environment check logs.
 
+Notes:
+
+- `workspacePath` 可省略；省略时后端使用当前已绑定 workspace。
+- `uvManim` 必须在 workspace 下执行 `uv run --with manim manim --version`，它是实际渲染命令的前置健康检查。
+- `manim` 仅反映全局 Manim 安装状态，不再作为 `ready` 的阻塞条件。
+- 当 `status` 为 `broken` 或 `missing` 时，success data 可包含 `errorCode: "E_RUNTIME_INVALID"`；调用方应据此禁用生成入口并引导用户修复 runtime。
+
+- `latex` and `dvisvgm` are required for `MathTex` and Manim formula labels; either missing component makes runtime `broken`.
+
 ### 4.4 `repair_runtime`
+
 Request:
 
 ```json
@@ -196,7 +246,9 @@ State impact:
 - Must not run arbitrary commands supplied by frontend.
 
 ## 5. Provider Commands
+
 ### 5.1 `list_provider_configs`
+
 Request:
 
 ```json
@@ -223,6 +275,7 @@ Success data:
 API Key must never be returned.
 
 ### 5.2 `save_provider_config`
+
 Request:
 
 ```json
@@ -255,6 +308,7 @@ State impact:
 - Must not log `api_key`.
 
 ### 5.3 `delete_provider_config`
+
 Request:
 
 ```json
@@ -282,6 +336,7 @@ State impact:
 - Deletes provider only if no active queued/running job uses it.
 
 ### 5.4 `test_provider_config`
+
 Request:
 
 ```json
@@ -317,7 +372,9 @@ State impact:
 - Does not persist config unless caller separately invokes `save_provider_config`.
 
 ## 6. Project Commands
+
 ### 6.1 `list_projects`
+
 Request:
 
 ```json
@@ -340,6 +397,7 @@ Success data:
 ```
 
 ### 6.2 `create_project`
+
 Request:
 
 ```json
@@ -368,6 +426,7 @@ State impact:
 - Creates project directory.
 
 ### 6.3 `delete_project`
+
 Request:
 
 ```json
@@ -397,7 +456,9 @@ State impact:
 - Deletes project metadata and associated files for completed/failed/cancelled jobs.
 
 ## 7. Job Commands
+
 ### 7.1 `submit_prompt_job`
+
 Request:
 
 ```json
@@ -431,6 +492,7 @@ State impact:
 - Enqueues job.
 
 ### 7.2 `get_job`
+
 Request:
 
 ```json
@@ -457,6 +519,7 @@ Success data:
 ```
 
 ### 7.3 `list_project_jobs`
+
 Request:
 
 ```json
@@ -474,6 +537,7 @@ Success data:
 ```
 
 ### 7.4 `cancel_job`
+
 Request:
 
 ```json
@@ -503,6 +567,7 @@ State impact:
 - running job: terminate render process if active, mark cancelled, write log.
 
 ### 7.5 `retry_job`
+
 Request:
 
 ```json
@@ -533,7 +598,9 @@ State impact:
 - Original job remains unchanged.
 
 ## 8. Log and Artifact Commands
+
 ### 8.1 `get_job_logs`
+
 Request:
 
 ```json
@@ -562,6 +629,7 @@ Success data:
 API Key and raw provider secrets must be redacted.
 
 ### 8.2 `get_render_artifact`
+
 Request:
 
 ```json
@@ -587,6 +655,7 @@ Success data:
 ```
 
 ### 8.3 `get_video_file_url`
+
 Request:
 
 ```json
@@ -599,7 +668,7 @@ Success data:
 
 ```json
 {
-  "url": "tauri-asset-url"
+  "url": "http://asset.localhost/C%3A%5CManimWorkspace%5Cartifacts%5Cproject_01%5Cjob_01%5Coutput.mp4"
 }
 ```
 
@@ -611,7 +680,14 @@ Errors:
 
 State impact: none.
 
+Notes:
+
+- 后端必须先校验 artifact 真实文件仍位于当前 workspace 内。
+- 返回值必须是可直接用于 `<video src>` 的 Tauri asset URL。
+- 前端不得自行拼接本地路径；如需兼容旧后端，仅可在 command client 内部把已校验路径转换为 asset URL。
+
 ### 8.4 `open_render_artifact`
+
 Request:
 
 ```json
@@ -648,6 +724,7 @@ State impact:
 - Never accepts arbitrary frontend paths.
 
 ## 9. Error Codes
+
 ```text
 E_AUTH_401
 E_ARTIFACT_INVALID
@@ -673,6 +750,7 @@ E_WORKSPACE_INVALID
 ```
 
 ## 10. Frontend Handling Rules
+
 - Never infer terminal job success from logs alone; use `get_job`.
 - Show `error.message` to users.
 - Show `error.details` only in developer/expanded panels after redaction.
