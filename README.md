@@ -15,6 +15,8 @@ LLM-Manim 是一个面向 Manim Community Edition 的桌面应用。它使用 LL
 
 > prompt: 演示傅里叶级数如何用多个正弦波叠加逐步逼近一个方波。
 
+[![演示动画一]](docs/demo/FourierSquareWave.mp4)
+
 <video src="docs\demo\FourierSquareWave.mp4" controls width="720"></video>
 
 ### 示例二
