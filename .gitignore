@@ -19,7 +19,8 @@ src-tauri/target
 
 # AI Conponents
 .claude/
-.references/
+references/
+documents/
 
 # Editor directories and files
 .vscode/*
