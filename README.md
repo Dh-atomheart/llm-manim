@@ -6,6 +6,12 @@
 ![GitHub issues](https://img.shields.io/github/issues/Dh-atomheart/llm-manim?style=flat-square)
 ![License](https://img.shields.io/github/license/Dh-atomheart/llm-manim?style=flat-square)
 
+![Visitors](https://visitor-badge.laobi.icu/badge?page_id=Dh-atomheart.llm-manim)
+![GitHub stars](https://img.shields.io/github/stars/Dh-atomheart/llm-manim?style=flat-square)
+![GitHub forks](https://img.shields.io/github/forks/Dh-atomheart/llm-manim?style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/Dh-atomheart/llm-manim?style=flat-square)
+![License](https://img.shields.io/github/license/Dh-atomheart/llm-manim?style=flat-square)
+
 LLM-Manim 是一个面向 Manim Community Edition 的桌面应用。它使用 LLM 根据用户提示生成 Manim 动画代码，在本地进行静态检查、渲染 MP4，并保存生成历史与日志，帮助用户更快制作数学、物理、算法和课程讲解类动画。
 
 ## 核心功能
@@ -21,31 +27,65 @@ LLM-Manim 是一个面向 Manim Community Edition 的桌面应用。它使用 LL
 
 > prompt: 演示傅里叶级数如何用多个正弦波叠加逐步逼近一个方波。
 
+<<<<<<< HEAD
 https://github.com/user-attachments/assets/ef48712f-1c27-408e-a8af-0632b1c5b2d9
+=======
+
+https://github.com/user-attachments/assets/ef48712f-1c27-408e-a8af-0632b1c5b2d9
+
+>>>>>>> bed5088e38db32926319f5bfb12d445f1c8bcf90
 
 ### 示例二
 
 > prompt: 用节点和边的动画展示深度优先搜索在网格迷宫中的探索路径。
 
+<<<<<<< HEAD
 https://github.com/user-attachments/assets/5e147fb5-89bb-45e4-86ef-9a8e01b9859d
+=======
+
+https://github.com/user-attachments/assets/5e147fb5-89bb-45e4-86ef-9a8e01b9859d
+
+
+>>>>>>> bed5088e38db32926319f5bfb12d445f1c8bcf90
 
 ### 示例三
 
 > prompt: 在3D场景中绘制一个双曲抛物面（马鞍面）z = x^2 - y^2。让相机围绕曲面旋转360度，同时用颜色映射表示高度。添加坐标轴和网格。
 
+<<<<<<< HEAD
 https://github.com/user-attachments/assets/57dec40d-2d39-499e-a4ff-068a1514fb97
+=======
+
+https://github.com/user-attachments/assets/57dec40d-2d39-499e-a4ff-068a1514fb97
+
+
+>>>>>>> bed5088e38db32926319f5bfb12d445f1c8bcf90
 
 ### 示例四
 
 > prompt: 生成分形图案——科赫雪花。从一个等边三角形开始，迭代3次，每次将每条边替换为4条小边（科赫曲线构造）。显示每次迭代后的结果，并在角落标注迭代次数和边数变化。
 
+<<<<<<< HEAD
 https://github.com/user-attachments/assets/97e156a3-7e06-4a35-a2ea-4c1a03e7a898
+=======
+
+https://github.com/user-attachments/assets/97e156a3-7e06-4a35-a2ea-4c1a03e7a898
+
+
+>>>>>>> bed5088e38db32926319f5bfb12d445f1c8bcf90
 
 ### 示例五
 
 > prompt: 模拟一个抛体运动：一个小球以初速度 v_0、角度 \theta 抛出，画出它的运动轨迹，实时显示速度矢量和加速度矢量。落地时要有轻微的弹跳效果，并在旁边显示运动方程。
 
+<<<<<<< HEAD
 https://github.com/user-attachments/assets/526c2ec8-90ee-410b-b32c-18d71893d0f5
+=======
+
+https://github.com/user-attachments/assets/526c2ec8-90ee-410b-b32c-18d71893d0f5
+
+
+>>>>>>> bed5088e38db32926319f5bfb12d445f1c8bcf90
 
 ## 技术栈
 
