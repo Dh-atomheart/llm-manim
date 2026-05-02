@@ -48,7 +48,6 @@ src-tauri/target/release/bundle/nsis/
 - Tauri 桌面应用二进制。
 - 前端构建产物。
 - 应用图标和 Tauri bundle 资源。
-- 编译期嵌入的 `references/` 关键内容。
 
 安装包不包含：
 
@@ -57,7 +56,6 @@ src-tauri/target/release/bundle/nsis/
 - FFmpeg / FFprobe
 - MiKTeX / LaTeX / dvisvgm
 - 用户 workspace 数据
-- 源码目录中的完整 `references/` 文件夹
 
 普通用户安装后仍需按 [Runtime 安装手册](runtime-installation.md) 准备外部 runtime。
 
@@ -95,4 +93,4 @@ cargo check
 - `.runtime/`
 - 日志、API Key、数据库和渲染产物
 
-`references/` 不属于这些内容；它是源码构建必需目录，应保留在仓库中。
+

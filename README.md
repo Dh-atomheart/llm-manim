@@ -1,4 +1,10 @@
-﻿# LLM-Manim
+﻿﻿# LLM-Manim
+
+![Visitors](https://visitor-badge.laobi.icu/badge?page_id=Dh-atomheart.llm-manim)
+![GitHub stars](https://img.shields.io/github/stars/Dh-atomheart/llm-manim?style=flat-square)
+![GitHub forks](https://img.shields.io/github/forks/Dh-atomheart/llm-manim?style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues/Dh-atomheart/llm-manim?style=flat-square)
+![License](https://img.shields.io/github/license/Dh-atomheart/llm-manim?style=flat-square)
 
 LLM-Manim 是一个面向 Manim Community Edition 的桌面应用。它使用 LLM 根据用户提示生成 Manim 动画代码，在本地进行静态检查、渲染 MP4，并保存生成历史与日志，帮助用户更快制作数学、物理、算法和课程讲解类动画。
 
@@ -15,33 +21,31 @@ LLM-Manim 是一个面向 Manim Community Edition 的桌面应用。它使用 LL
 
 > prompt: 演示傅里叶级数如何用多个正弦波叠加逐步逼近一个方波。
 
-[![演示动画一]](docs/demo/FourierSquareWave.mp4)
-
-<video src="docs\demo\FourierSquareWave.mp4" controls width="720"></video>
+https://github.com/user-attachments/assets/ef48712f-1c27-408e-a8af-0632b1c5b2d9
 
 ### 示例二
 
 > prompt: 用节点和边的动画展示深度优先搜索在网格迷宫中的探索路径。
 
-<video src="docs\demo\DFSMazeExploration.mp4" controls width="720"></video>
+https://github.com/user-attachments/assets/5e147fb5-89bb-45e4-86ef-9a8e01b9859d
 
 ### 示例三
 
 > prompt: 在3D场景中绘制一个双曲抛物面（马鞍面）z = x^2 - y^2。让相机围绕曲面旋转360度，同时用颜色映射表示高度。添加坐标轴和网格。
 
-<video src="docs\demo\HyperbolicParaboloid.mp4" controls width="720"></video>
+https://github.com/user-attachments/assets/57dec40d-2d39-499e-a4ff-068a1514fb97
 
 ### 示例四
 
 > prompt: 生成分形图案——科赫雪花。从一个等边三角形开始，迭代3次，每次将每条边替换为4条小边（科赫曲线构造）。显示每次迭代后的结果，并在角落标注迭代次数和边数变化。
 
-<video src="docs\demo\KochSnowflake.mp4" controls width="720"></video>
+https://github.com/user-attachments/assets/97e156a3-7e06-4a35-a2ea-4c1a03e7a898
 
 ### 示例五
 
 > prompt: 模拟一个抛体运动：一个小球以初速度 v_0、角度 \theta 抛出，画出它的运动轨迹，实时显示速度矢量和加速度矢量。落地时要有轻微的弹跳效果，并在旁边显示运动方程。
 
-<video src="docs\demo\ProjectileMotion.mp4" controls width="720"></video>
+https://github.com/user-attachments/assets/526c2ec8-90ee-410b-b32c-18d71893d0f5
 
 ## 技术栈
 
@@ -184,7 +188,6 @@ tests/e2e/            Playwright 端到端测试
 - [Provider 配置手册](docs/provider-configuration.md)：配置 OpenAI-compatible / Anthropic-compatible Provider 并排查连接问题。
 - [开发者手册](docs/developer-guide.md)：源码运行、项目结构、前后端边界和测试命令。
 - [发布与安装包手册](docs/release-packaging.md)：构建 MSI/NSIS 安装包和发布前检查。
-- [References 打包说明](docs/references-packaging.md)：说明 `references/` 如何编译进二进制，以及 Release 用户为什么不需要该目录。
 - [故障排查手册](docs/troubleshooting.md)：runtime、Provider、渲染、Cargo 缓存等常见问题。
 
 更多使用、开发和发布细节见 [文档中心](docs/index.md)。
@@ -192,3 +195,4 @@ tests/e2e/            Playwright 端到端测试
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+

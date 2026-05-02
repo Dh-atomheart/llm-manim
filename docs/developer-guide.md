@@ -43,7 +43,6 @@ npm run dev
 src/                  React 前端、视图、组件、状态和 Tauri command client
 src-tauri/            Tauri/Rust 后端、SQLite migrations、渲染与 Provider 服务
 docs/                 用户、开发、发布和维护手册
-references/           构建期嵌入的 ManimCE manifest、规则、技能和模板
 tests/e2e/            Playwright 端到端测试
 ```
 
@@ -93,5 +92,5 @@ cargo check
 
 - 优先保持 Tauri command 返回统一的 `AppResponse<T>`。
 - 涉及数据库 schema 时新增 migration，不要直接修改已有 migration 的语义。
-- 修改 prompt 规则或 Manim API 兼容数据时，同步阅读 [References 打包说明](references-packaging.md)。
 - 修改渲染或静态检查逻辑后，至少运行 `cargo check` 和相关测试。
+

@@ -85,7 +85,7 @@ winget install --id Gyan.FFmpeg -e
 
 ## 生成代码静态检查失败
 
-现象：任务失败，错误指向 Manim API、denylist、ManimGL、文件访问、subprocess、shell command 等。
+现象：任务失败，错误指向 Manim API、ManimGL、文件访问、subprocess、shell command 等。
 
 说明：应用会拒绝不安全或不兼容 ManimCE 的代码。
 
@@ -119,8 +119,4 @@ cargo check
 
 这是 Cargo/Tauri 构建缓存中的旧绝对路径导致的。
 
-## references 缺失导致编译失败
 
-现象：`cargo check` 或 Tauri build 报 `couldn't read references/...`。
-
-处理：确认源码仓库中保留 `references/` 目录。Release 安装包用户不需要该目录，但开发者源码构建必须保留它。
